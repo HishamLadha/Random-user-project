@@ -8,11 +8,17 @@ const user = document.querySelector('#user');
 function generateUser(){
     showSpinner();
     fetch('https://randomuser.me/api/')
-    .then((resp) => resp.json())
+    .then((resp) => {
+      if(!resp.ok){
+        throw new Error('Something went wrong!');
+      }
+      return resp.json();})
     .then((data) => {
         const userData = data.results[0];
         displayUser(userData);
         hideSpinner();
+    }).catch(error => {
+      console.log(error);
     });
 }
 
